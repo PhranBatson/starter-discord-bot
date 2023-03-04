@@ -73,24 +73,30 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
 
 app.get('/register_commands', async (req,res) =>{
-  let slash_commands = [
+  let app_commands = [
     {
       "name": "yo",
+      "type": 1,   // type 1 means slash command
       "description": "replies with Yo!",
       "options": []
     },
     {
       "name": "dm",
+      "type": 1,
       "description": "sends user a DM",
       "options": []
+    },
+    {
+      "name": "High Five",
+      "type": 2    // type 2 means user command
     }
   ]
   try
   {
-    // api docs - https://discord.com/developers/docs/interactions/application-commands#create-global-application-command
+    // api docs - https://discord.com/developers/docs/interactions/application-commands
     let discord_response = await discord_api.put(
       `/applications/${APPLICATION_ID}/guilds/${GUILD_ID}/commands`,
-      slash_commands
+      app_commands
     )
     console.log(discord_response.data)
     return res.send('commands have been registered')
