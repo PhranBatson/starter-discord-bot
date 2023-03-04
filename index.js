@@ -66,6 +66,15 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         }
       });
     }
+
+    if(interaction.data.name == 'High Five'){
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: `${interaction.member.user.username} just gave a High Five to ${interaction.data.resolved.users.username}!`,
+        },
+      });
+    }
   }
 
 });
@@ -82,7 +91,7 @@ app.get('/register_commands', async (req,res) =>{
     },
     {
       "name": "dm",
-      "type": 1,
+      "type": 1,  // type 1 means slash command
       "description": "sends user a DM",
       "options": []
     },
